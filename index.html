@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Host - Modern Server Hosting</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --orange-primary: #ff4d00;
+            --orange-secondary: #ff7e00;
+        }
+        
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .gradient {
+            background: linear-gradient(135deg, var(--orange-primary), var(--orange-secondary));
+        }
+        
+        .gradient-soft {
+            background: linear-gradient(135deg, rgba(255, 77, 0, 0.1), rgba(255, 126, 0, 0.1));
+        }
+
+        .hover-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+        
+        .hover-card:hover {
+            transform: scale(1.02);
+            border-color: rgba(255, 77, 0, 0.2);
+        }
+
+        .smooth-shadow {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-glow {
+            transition: all 0.2s ease;
+        }
+
+        .button-glow:hover {
+            box-shadow: 0 0 20px rgba(255, 77, 0, 0.3);
+        }
+
+        #mobileMenu {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        #toast {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .section-fade {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 backdrop-blur-md bg-gray-900/90">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <img src="assets/fireservers.png" alt="Fire Host" class="h-8 transition transform group-hover:scale-110">
+                    <span class="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-orange-600">
+                        Fire Host
+                    </span>
+                </a>
+                
+                <div class="hidden md:flex items-center space-x-12">
+                    <a href="#features" class="text-sm text-gray-300 hover:text-white transition-colors duration-200">Features</a>
+                    <a href="#pricing" class="text-sm text-gray-300 hover:text-white transition-colors duration-200">Pricing</a>
+                    <a href="#support" class="text-sm text-gray-300 hover:text-white transition-colors duration-200">Support</a>
+                    <button onclick="window.location.href='https://panel.fireservers.pro'" class="button-glow bg-orange-500 hover:bg-orange-600 px-5 py-2 rounded-lg text-sm font-medium transition">
+                        Control Panel
+                    </button>
+                </div>
+
+                <button id="menuBtn" class="md:hidden text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed inset-0 bg-gray-900/98 backdrop-blur-lg z-50 hidden opacity-0">
+        <div class="flex flex-col h-full">
+            <div class="flex justify-end p-6">
+                <button id="closeMenuBtn" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div class="flex flex-col items-center justify-center flex-1 space-y-8">
+                <a href="#features" class="text-2xl text-gray-300 hover:text-white transition-colors">Features</a>
+                <a href="#pricing" class="text-2xl text-gray-300 hover:text-white transition-colors">Pricing</a>
+                <a href="#support" class="text-2xl text-gray-300 hover:text-white transition-colors">Support</a>
+                <button onclick="window.location.href='https://panel.fireservers.pro'" class="button-glow bg-orange-500 hover:bg-orange-600 px-8 py-3 rounded-lg text-lg font-medium transition mt-4">
+                    Control Panel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="gradient min-h-screen flex items-center">
+        <div class="max-w-6xl mx-auto px-6 py-24">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+                        Power Your Games with Premium Hosting
+                    </h1>
+                    <p class="text-xl text-gray-300">
+                        Deploy high-performance game servers instantly with enterprise-grade protection.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="window.location.href='#pricing'" class="button-glow bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 rounded-xl font-semibold transition">
+                            Get Started Free
+                        </button>
+                        <button onclick="window.location.href='#features'" class="bg-black/30 hover:bg-black/40 px-8 py-4 rounded-xl font-semibold transition backdrop-blur-sm">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+                <div class="hidden md:block relative">
+                    <div class="absolute inset-0 gradient-soft rounded-2xl filter blur-3xl"></div>
+                    <div class="relative">
+                        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" class="w-full smooth-shadow rounded-2xl">
+                            <defs>
+                                <linearGradient id="serverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#1E293B"/>
+                                    <stop offset="100%" stop-color="#0F172A"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Server Rack -->
+                            <rect width="400" height="300" fill="#0F172A" rx="8"/>
+                            <rect x="40" y="40" width="320" height="220" fill="url(#serverGrad)" rx="6"/>
+                            
+                            <!-- Server Units -->
+                            <g transform="translate(60, 60)">
+                                <!-- Unit 1 -->
+                                <rect width="280" height="40" fill="#1E293B" rx="4"/>
+                                <rect x="16" y="12" width="160" height="16" fill="#2D3748" rx="2"/>
+                                <circle cx="220" cy="20" r="4" fill="#22C55E"/>
+                                <circle cx="240" cy="20" r="4" fill="#FF4D00"/>
+                                
+                                <!-- Unit 2 -->
+                                <g transform="translate(0, 50)">
+                                    <rect width="280" height="40" fill="#1E293B" rx="4"/>
+                                    <rect x="16" y="12" width="160" height="16" fill="#2D3748" rx="2"/>
+                                    <circle cx="220" cy="20" r="4" fill="#22C55E"/>
+                                    <circle cx="240" cy="20" r="4" fill="#FF4D00"/>
+                                </g>
+                                
+                                <!-- Unit 3 -->
+                                <g transform="translate(0, 100)">
+                                    <rect width="280" height="40" fill="#1E293B" rx="4"/>
+                                    <rect x="16" y="12" width="160" height="16" fill="#2D3748" rx="2"/>
+                                    <circle cx="220" cy="20" r="4" fill="#22C55E"/>
+                                    <circle cx="240" cy="20" r="4" fill="#FF4D00"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-bold mb-4">Why Choose Fire Host</h2>
+                <p class="text-gray-400 text-lg">Everything you need for professional game hosting</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="hover-card p-8 rounded-xl bg-gray-800/30 backdrop-blur-sm">
+                    <div class="w-12 h-12 gradient rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-bolt text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Instant Deployment</h3>
+                    <p class="text-gray-400">Get your server up and running in seconds with our automated setup system.</p>
+                </div>
+                <div class="hover-card p-8 rounded-xl bg-gray-800/30 backdrop-blur-sm">
+                    <div class="w-12 h-12 gradient rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">DDoS Protection</h3>
+                    <p class="text-gray-400">Enterprise-grade protection keeps your server secure against attacks 24/7.</p>
+                </div>
+                <div class="hover-card p-8 rounded-xl bg-gray-800/30 backdrop-blur-sm">
+                    <div class="w-12 h-12 gradient rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-tachometer-alt text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">High Performance</h3>
+                    <p class="text-gray-400">Fast SSD storage to ensure minimal latancy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-32 bg-gray-800/50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
+                <p class="text-gray-400 text-lg">No hidden fees, no long-term contracts</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Free Plan -->
+                <div class="hover-card p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm">
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-semibold mb-2">Free</h3>
+                        <div class="text-4xl font-bold">$0<span class="text-lg text-gray-400 font-normal">/mo</span></div>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-gray-300">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            2GB RAM
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            2 CPU Cores
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            20GB Storage
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            Basic Support
+                        </li>
+                    </ul>
+                    <button onclick="window.location.href='https://billing.fireservers.pro'" class="w-full bg-gray-800 hover:bg-gray-700 py-3 rounded-lg font-medium transition">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="hover-card p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-orange-500 text-sm px-3 py-1 rounded-full font-medium">Most Popular</span>
+                    </div>
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-semibold mb-2">Pro</h3>
+                        <div class="text-4xl font-bold">$7.99<span class="text-lg text-gray-400 font-normal">/mo</span></div>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-gray-300">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            8GB RAM
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            2 CPU Cores
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            20GB Storage
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            Priority Support
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            Premium DDoS Protection
+                        </li>
+                    </ul>
+                    <button onclick="window.location.href='https://billing.fireservers.pro'" class="w-full bg-orange-500 hover:bg-orange-600 py-3 rounded-lg font-medium transition button-glow">
+                        Select Plan
+                    </button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="hover-card p-8 rounded-xl bg-gray-900/50 backdrop-blur-sm">
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-semibold mb-2">Enterprise</h3>
+                        <div class="text-4xl font-bold">$15.99<span class="text-lg text-gray-400 font-normal">/mo</span></div>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-gray-300">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            16GB RAM
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            2 CPU Cores
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            20GB Storage
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            24/7 Priority Support
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-3"></i>
+                            Enterprise DDoS Protection
+                        </li>
+                    </ul>
+                    <button onclick="window.location.href='https://billing.fireservers.pro'" class="w-full bg-gray-800 hover:bg-gray-700 py-3 rounded-lg font-medium transition">
+                        Select Plan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support" class="py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-bold mb-4">Need Help?</h2>
+                <p class="text-gray-400 text-lg">Our support team is here for you 24/7</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <a href="https://discord.gg/fireservers" class="hover-card p-8 rounded-xl bg-gray-800/30 backdrop-blur-sm text-center">
+                    <i class="fab fa-discord text-4xl text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Join Our Discord</h3>
+                    <p class="text-gray-400">Get instant help from our community and support team</p>
+                </a>
+                <a href="#" class="hover-card p-8 rounded-xl bg-gray-800/30 backdrop-blur-sm text-center">
+                    <i class="fas fa-book text-4xl text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Documentation</h3>
+                    <p class="text-gray-400">Detailed guides and tutorials to help you get started</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-gray-800/30">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <img src="assets/fireservers.png" alt="Fire Host" class="h-8">
+                        <span class="text-xl font-semibold">Fire Host</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Premium game server hosting for your community.</p>
+                </div>
+                
+                <!-- Links -->
+                <div>
+                    <h4 class="text-sm font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-gray-400 hover:text-white text-sm transition">Features</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white text-sm transition">Pricing</a></li>
+                        <li><a href="#support" class="text-gray-400 hover:text-white text-sm transition">Support</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Links -->
+                <div>
+                    <h4 class="text-sm font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm transition">Privacy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white text-sm transition">Terms</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social -->
+                <div>
+                    <h4 class="text-sm font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://discord.gg/fireservers" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-discord text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800/30 mt-12 pt-8 text-center">
+                <p class="text-sm text-gray-400">&copy; 2025 Fire Host. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            setTimeout(() => mobileMenu.classList.add('opacity-100'), 10);
+        });
+        
+        closeMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('opacity-100');
+            setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.remove('opacity-100');
+                    setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+                }
+            });
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('section-fade');
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
